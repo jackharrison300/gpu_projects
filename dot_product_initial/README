@@ -1,0 +1,21 @@
+The CPU code runs significantly faster at the scale of 1024*1024 vector size.
+This is because the GPU code has substantial overhead in the memory
+allocation and data transfer portion; if we isolate the GPU's kernel execution and
+transfer back to CPU time, these processes combined take less time than the
+CPU execution.
+
+At scale, eventually the advantages of parallelism in the GPU function do
+overtake the overhead cost to outperform the CPU code.
+
+In addition, I wrote an alternative implementation of the GPU function which
+uses parallelism in the addition step as well. This implementation is faster than
+the more naive first implementation, and overtakes the CPU at a lower vector size.
+At vector size 10024 * 10024, I saw the following run times:
+CPU: 0.62 s
+GPU naive: 0.73 s
+GPU alt: 0.46 s
+
+Additionally, the alt implementation is more accurate, as it does the floating point
+addition at lower levels before aggregating rather than as one rolling snowball, to
+use a metaphor. This does mean that its result will likely not exactly equal the CPU
+result, but this is a feature, not a bug.

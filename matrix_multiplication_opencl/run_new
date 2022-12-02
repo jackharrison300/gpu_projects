@@ -1,0 +1,2 @@
+/usr/bin/g++ -O -I "$CUDA_ROOT/include" $1.cpp -L "$CUDA_ROOT/lib64/" -lX11 -lGL -lGLU -lglut -lm -lXmu -lOpenCL -o $1
+
